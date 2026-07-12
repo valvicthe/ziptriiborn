@@ -1,0 +1,26 @@
+{
+  "name": "ziptrii-backend",
+  "version": "1.0.0",
+  "description": "Ziptrii",
+  "main": "dist/index.js",
+  "type": "module",
+  "scripts": {
+    "build": "tsc && npx prisma generate",
+    "start": "npx prisma migrate deploy && node dist/index.js",
+    "dev": "tsx watch src/index.ts"
+  },
+  "dependencies": {
+    "@prisma/client": "^5.16.1",
+    "axios": "^1.7.2",
+    "cookie-parser": "^1.4.6",
+    "express": "^4.19.2"
+  },
+  "devDependencies": {
+    "@types/cookie-parser": "^1.4.7",
+    "@types/express": "^4.17.21",
+    "@types/node": "^20.14.9",
+    "prisma": "^5.16.1",
+    "tsx": "^4.15.7",
+    "typescript": "^5.5.2"
+  }
+}
