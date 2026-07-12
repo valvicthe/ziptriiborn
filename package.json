@@ -1,0 +1,12 @@
+{
+  "name": "ziptrii-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "apps/*"
+  ],
+  "scripts": {
+    "dev:backend": "npm run dev -w apps/backend",
+    "build:backend": "npm run build -w apps/backend"
+  }
+}
