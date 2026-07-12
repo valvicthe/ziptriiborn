@@ -1,0 +1,61 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum PermissionLevel {
+  USER
+  MODERATOR
+  ADMIN
+  OWNER
+}
+
+model User {
+  id           Int             @id @default(autoincrement())
+  username     String          @unique
+  displayName  String
+  passwordHash String          // Securely hashed password (bcrypt/argon2)
+  description  String          @default("")
+  status       String          @default("")
+  permission   PermissionLevel @default(USER)
+  created      DateTime        @default(now())
+  isBanned     Boolean         @default(false)
+  
+  sessions     Session[]
+  assets       Asset[]
+  places       Place[]
+}
+
+model Session {
+  id         String   @id @default(uuid())
+  token      String   @unique // The simulated .ROBLOSECURITY token
+  userId     Int
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt  DateTime @default(now())
+  expiresAt  DateTime
+}
+
+model Asset {
+  id          Int      @id @default(autoincrement())
+  name        String
+  description String
+  assetType   Int      // 2020 AssetType enum (1 = Image, 9 = Place, etc.)
+  hash        String   @unique // Content hash mapping to physical storage (S3/Railway Volume)
+  creatorId   Int
+  creator     User     @relation(fields: [creatorId], references: [id])
+  created     DateTime @default(now())
+}
+
+model Place {
+  id          Int      @id @default(autoincrement())
+  name        String
+  description String
+  maxPlayers  Int      @default(10)
+  creatorId   Int
+  creator     User     @relation(fields: [creatorId], references: [id])
+  uuid        String   @unique @default(uuid()) // Used for RCCService game server allocation
+}
