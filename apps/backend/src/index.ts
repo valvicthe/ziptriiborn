@@ -48,8 +48,6 @@ app.use('/avatar', avatarRouter);  // Handles: /avatar/v1/users/:id & /avatar/v1
  * Hardcoded to listen on '0.0.0.0' to allow global ingress proxy binding
  */
 app.listen(Number(PORT), '0.0.0.0', () => {
-  console.log(`\n==================================================`);
-  console.log(` 🚀 ZIPTRII ENGINE IS LIVE AND ONLINE`);
-  console.log(` 📡 Network Ingress: http://0.0.0.0:${PORT}`);
-  console.log(`==================================================\n`);
+  console.log(`[Ziptrii] Live!`);
+  console.log(`Network Ingress: http://0.0.0.0:${PORT}`);
 });
