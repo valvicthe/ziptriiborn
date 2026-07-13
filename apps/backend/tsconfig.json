@@ -1,23 +1,31 @@
 {
   "compilerOptions": {
-    "target": "ES2022",
-    "lib": ["dom", "dom.iterable", "esnext"],
-    "allowJs": true,
-    "skipLibCheck": true,
-    "strict": true,
-    "noEmit": true,
-    "esModuleInterop": true,
-    "module": "esnext",
-    "moduleResolution": "bundler",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "jsx": "preserve",
-    "incremental": true,
-    "baseUrl": ".",
-    "paths": {
-      "@/*": ["./*"]
-    }
+    /* Language and Environment */
+    "target": "ES2022",                               /* Specifies the JavaScript version for output code */
+    "lib": ["ES2022"],                                /* Specifies library files to be included in the compilation */
+
+    /* Modules */
+    "module": "commonjs",                             /* Standard for Node/Express backends */
+    "moduleResolution": "node",                       /* Strategy for resolving module imports */
+    "baseUrl": ".",                                   /* Base directory to resolve non-absolute module names */
+    "resolveJsonModule": true,                        /* Allows importing .json files natively */
+
+    /* Emit */
+    "rootDir": "src",                                 /* Point to your source files directory */
+    "outDir": "dist",                                 /* Where Railway will look for the compiled JS to execute */
+    "sourceMap": true,                                /* Helps with debugging stack traces in production */
+    "removeComments": true,                           /* Keeps the production build lightweight */
+
+    /* Interop Constraints */
+    "esModuleInterop": true,                          /* Emits additional JavaScript to ease support for importing CommonJS modules */
+    "forceConsistentCasingInFileNames": true,        /* Ensures case-sensitivity matches Linux/Railway environments */
+
+    /* Type Checking */
+    "strict": true,                                   /* Enables a wide range of strong type-checking behaviors */
+    "noImplicitAny": true,                            /* Raises error on expressions and declarations with an implied 'any' type */
+    "strictNullChecks": true,                         /* Controls how null and undefined are handled */
+    "skipLibCheck": true                              /* Skip type checking of declaration files (Crucial for Prisma/node_modules) */
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
-  "exclude": ["node_modules"]
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist", "**.test.ts"]
 }
