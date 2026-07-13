@@ -1,35 +1,49 @@
+// apps/backend/src/routes/users.ts
 import { Router, Request, Response } from 'express';
-import { PrismaClient } from '@prisma/client';
-import { validateSession } from '../middleware/auth.js';
+import { prisma } from '../prisma.js';
 
 const router = Router();
-const prisma = new PrismaClient();
 
-// Dynamic User Endpoint pulling straight from the PostgreSQL database
-router.get('/v1/users/:userId', async (req: Request, res: Response) => {
+// Fetch true profile data from PostgreSQL
+router.get('/v1/users/:id', async (req: Request, res: Response) => {
   try {
-    const userId = parseInt(req.params.userId, 10);
-    
+    const userId = parseInt(req.params.id);
     const user = await prisma.user.findUnique({
       where: { id: userId },
-      select: { id: true, username: true, displayName: true, description: true, created: true, isBanned: true }
+      select: { id: true, username: true, displayName: true, description: true, robux: true }
     });
 
-    if (!user) {
-      return res.status(404).json({ errors: [{ code: 1, message: "User not found within Ziptrii registries." }] });
-    }
-
-    return res.json({
-      id: user.id,
-      name: user.username,
-      displayName: user.displayName,
-      description: user.description,
-      created: user.created.toISOString(),
-      isBanned: user.isBanned,
-      externalAppDisplayName: null
-    });
+    if (!user) return res.status(404).json({ error: "User not found" });
+    return res.json(user);
   } catch (err) {
-    return res.status(500).json({ errors: [{ code: 0, message: "Internal Server Error" }] });
+    return res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+// Fetch active relations from Friendship join table
+router.get('/v1/users/:id/friends', async (req: Request, res: Response) => {
+  try {
+    const userId = parseInt(req.params.id);
+    
+    const friendships = await prisma.friendship.findMany({
+      where: {
+        OR: [
+          { senderId: userId, isAccepted: true },
+          { receiverId: userId, isAccepted: true }
+        ]
+      },
+      include: {
+        sender: true,
+        receiver: true
+      }
+    });
+
+    // Map relationships to extract the friend's actual profile details
+    const friendsList = friendships.map(f => f.senderId === userId ? f.receiver : f.sender);
+    
+    return res.json({ data: friendsList });
+  } catch (err) {
+    return res.status(500).json({ error: "Failed to fetch friends" });
   }
 });
 
