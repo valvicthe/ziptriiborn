@@ -1,0 +1,28 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg-primary: #232527;    /* Main page canvas */
+  --bg-secondary: #1c1e20;  /* Headers, side rails, deep panels */
+  --bg-card: #2b2d2f;       /* Standard wrapper containers */
+  --border-color: #393b3d;  /* Clean line layout splits */
+}
+
+body {
+  background-color: var(--bg-primary);
+  color: #ffffff;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Square scrollbar styling from the universal desktop web app */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #1c1e20;
+}
+::-webkit-scrollbar-thumb {
+  background: #393b3d;
+}
