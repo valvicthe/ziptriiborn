@@ -29,8 +29,11 @@ router.get('/asset', async (req: Request, res: Response) => {
       responseType: 'stream'
     });
 
-    // Mirror the exact content-type (e.g., image/png, application/octet-stream)
-    res.setHeader('Content-Type', response.headers['content-type'] || 'application/octet-stream');
+    // TYPE FIX: Guard the Content-Type header to ensure it's strictly a string for Express
+    const incomingContentType = response.headers['content-type'];
+    const safeContentType = typeof incomingContentType === 'string' ? incomingContentType : 'application/octet-stream';
+
+    res.setHeader('Content-Type', safeContentType);
     res.setHeader('Cache-Control', 'public, max-age=86400'); // Cache locally for 24 hours to preserve bandwidth
 
     return response.data.pipe(res);
