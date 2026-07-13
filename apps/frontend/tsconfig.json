@@ -1,0 +1,47 @@
+{
+  "compilerOptions": {
+    /* Language and Environment */
+    "target": "ES2022",
+    "lib": ["dom", "dom.iterable", "esnext"],         /* Adds browser environment typing (DOM) along with modern JS */
+
+    /* Modules & Path Routing */
+    "module": "esnext",
+    "moduleResolution": "bundler",                    /* Optimizes module resolution for modern bundlers like Next.js */
+    "baseUrl": ".",                                   /* Sets the root of apps/frontend as the import starting point */
+    "paths": {
+      "@/*": ["./*"]                                  /* Maps the @/ alias directly to your root frontend folder */
+    },
+    "resolveJsonModule": true,
+    "allowJs": true,                                  /* Allows gradual migration or usage of plain JS files if needed */
+
+    /* Emit & Next.js Framework Targets */
+    "noEmit": true,                                   /* SWC handles code generation; tsc is only used for type-checking */
+    "incremental": true,                              /* Speeds up subsequent Railway compilation builds using caching */
+    "jsx": "preserve",                                /* Leaves JSX transformation tasks to Next.js */
+
+    /* Interop & Compilation Constraints */
+    "esModuleInterop": true,
+    "isolatedModules": true,                          /* Required by Next.js to guarantee safe file-by-file transpilations */
+    "forceConsistentCasingInFileNames": true,        /* Absolute must for enforcing Linux case-sensitivity rules */
+
+    /* Type Checking rules */
+    "strict": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "skipLibCheck": true,                             /* Skips scanning node_modules to keep deployment build speeds fast */
+    
+    /* Next.js Core Integration */
+    "plugins": [
+      {
+        "name": "next"                                /* Enables Next.js App Router route and layout IntelliSense checking */
+      }
+    ]
+  },
+  "include": [
+    "next-env.d.ts",                                  /* Next.js default environmental type bindings */
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts"                            /* Links statically generated page/layout type definitions */
+  ],
+  "exclude": ["node_modules"]
+}
